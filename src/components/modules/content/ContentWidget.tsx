@@ -18,7 +18,7 @@ export function ContentWidget() {
       
       {/* Main Scrollable Content */}
       <div className="flex-1 overflow-y-auto scrollbar-thin scroll-smooth">
-        <div className="mx-auto max-w-5xl p-6 md:p-12 pb-20 space-y-12">
+        <div className="mx-auto max-w-5xl px-6 md:px-16 py-6 md:py-12 pb-20 space-y-12">
           <AnimatePresence mode="wait">
             {activeTab === "overview" && (
               <OverviewSection key="overview" />

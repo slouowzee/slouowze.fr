@@ -3,8 +3,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Separator } from "@/components/ui/Separator";
-import { PROFILE, PROJECTS, EXPERIENCE, EDUCATION } from "@/lib/data";import { ContributionGraph } from "@/components/modules/profile/ContributionGraph";import { motion } from "framer-motion";
-import { Github, Star, Briefcase, GraduationCap } from "lucide-react";
+import { PROFILE, PROJECTS, EXPERIENCE, EDUCATION } from "@/lib/data";
+import { ContributionGraph } from "../profile/ContributionGraph";
+import { motion } from "framer-motion";
+import { Github, Briefcase, GraduationCap } from "lucide-react";
 import Link from "next/link";
 
 export function OverviewSection() {
@@ -25,7 +27,7 @@ export function OverviewSection() {
           </h3>
         </div>
         <article className="border border-border rounded-lg p-6 bg-card/50">
-          <h2 className="text-xl font-semibold mb-4">Hi, I'm {PROFILE.name} 👋</h2>
+          <h2 className="text-xl font-semibold mb-4">Hi, I&apos;m {PROFILE.name} 👋</h2>
           <p className="text-muted-foreground leading-relaxed mb-6">
             {PROFILE.bio}
           </p>
@@ -34,10 +36,6 @@ export function OverviewSection() {
             <Badge variant="outline">Based in {PROFILE.location}</Badge>
           </div>
         </article>
-      </div>
-
-      <div className="mb-8">
-        <ContributionGraph />
       </div>
 
       <Separator className="my-8" />
@@ -127,6 +125,12 @@ export function OverviewSection() {
           ))}
         </div>
       </section>
+
+      <Separator className="my-8" />
+
+      <div className="mb-8">
+        <ContributionGraph />
+      </div>
     </motion.div>
   );
 }

@@ -9,7 +9,7 @@ export function ViewCounter() {
   useEffect(() => {
     // Check if we have a count in localStorage
     const savedViews = localStorage.getItem("profile_views");
-    const currentViews = savedViews ? parseInt(savedViews, 10) : 1234; // Start at 1234 mock
+    const currentViews = savedViews ? parseInt(savedViews, 10) : 0; // Start at 0
     
     // Simulate API increment
     // In production, you'd fetch('/api/views', { method: 'POST' })

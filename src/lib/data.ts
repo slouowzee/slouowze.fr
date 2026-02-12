@@ -49,7 +49,7 @@ export interface Education {
 
 export const PROFILE: Profile = {
   name: "John Doe",
-  handle: "@username",
+  handle: "@slouowzee",
   role: "Développeur Full Stack",
   location: "Ville, Pays",
   email: "hello@example.com",
@@ -58,9 +58,9 @@ export const PROFILE: Profile = {
 };
 
 export const SOCIALS: Social[] = [
-  { platform: "GitHub", url: "#", username: "username" },
-  { platform: "Twitter", url: "#", username: "username" },
-  { platform: "LinkedIn", url: "#", username: "username" },
+  { platform: "GitHub", url: "https://github.com/slouowzee", username: "slouowzee" },
+  { platform: "Twitter", url: "#", username: "slouowzee" },
+  { platform: "LinkedIn", url: "#", username: "slouowzee" },
 ];
 
 export const PROJECTS: Project[] = [

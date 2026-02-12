@@ -19,7 +19,7 @@ interface TabNavigationProps {
 
 export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
   return (
-    <div className="flex w-full gap-8 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-6 md:px-12 pt-6 sticky top-0 z-50">
+    <div className="flex w-full gap-8 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 px-6 md:px-12 pt-6 sticky top-0 z-50">
       {TABS.map((tab) => {
         const Icon = tab.icon;
         const isActive = activeTab === tab.id;
@@ -29,7 +29,7 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
             className={cn(
-              "group relative flex items-center gap-2 py-4 text-sm font-medium transition-colors hover:bg-muted/50 rounded-md px-3 -mb-[1px]",
+              "group relative flex items-center gap-2 py-4 text-sm font-medium transition-colors hover:bg-muted/50 rounded-md px-3 -mb-px",
               isActive ? "text-foreground font-semibold" : "text-muted-foreground hover:text-foreground/80"
             )}
           >
