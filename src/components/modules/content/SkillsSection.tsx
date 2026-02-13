@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/Badge";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/Card";
 import { SKILLS } from "@/lib/data";
-import { Terminal, Database, Globe, Figma, Github as GithubIcon, Cpu, Layers, Code2 } from "lucide-react";
+import { Terminal, Database, Globe, Figma, Github as GithubIcon, Layers, Code2 } from "lucide-react";
 
 // Helper function to map skills to icons
 const getIcon = (skill: string) => {
@@ -27,9 +27,9 @@ export function SkillsSection() {
       className="space-y-6"
     >
       <div className="mb-6">
-        <h2 className="text-2xl font-bold tracking-tight">Skills & Tech Stack</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Compétences & Stack Technique</h2>
         <p className="text-muted-foreground mt-1">
-          My technical expertise spans across the entire development spectrum.
+          Mon expertise technique à travers l&apos;ensemble du développement.
         </p>
       </div>
 

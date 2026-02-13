@@ -62,7 +62,7 @@ export async function POST(request: Request) {
             value: 'true',
             httpOnly: true,
             path: '/',
-            maxAge: 31536000, // 1 year
+            maxAge: 31536000,
             sameSite: 'strict',
         });
     }

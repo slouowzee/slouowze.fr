@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
 import { BookOpen, Code, Layers } from "lucide-react";
 
 const TABS = [
-  { id: "overview", label: "Overview", icon: BookOpen },
-  { id: "skills", label: "Skills", icon: Layers },
-  { id: "projects", label: "Projects", icon: Code },
+  { id: "overview", label: "Aperçu", icon: BookOpen },
+  { id: "skills", label: "Compétences", icon: Layers },
+  { id: "projects", label: "Projets", icon: Code },
 ] as const;
 
 export type TabId = (typeof TABS)[number]["id"];

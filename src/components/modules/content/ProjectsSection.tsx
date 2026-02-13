@@ -2,8 +2,7 @@
 
 import { motion } from "framer-motion";
 import { SERVICES } from "@/lib/data";
-import { Badge } from "@/components/ui/Badge";
-import { Star, Loader2, GitFork, ArrowDownAZ, ArrowUpAZ, Clock, Check, ChevronDown, ArrowUp, ArrowDown } from "lucide-react";
+import { Star, Loader2, ArrowDownAZ, ArrowUpAZ, Clock, ChevronDown, ArrowUp, ArrowDown } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { useEffect, useState, useMemo } from "react";
@@ -17,16 +16,17 @@ interface Project {
   tags: string[];
   featured?: boolean;
   stars?: number;
-  date?: string;
+  date?: string; // CreatedAt
+  lastActivity?: string; // PushedAt
 }
 
-type SortOption = "date" | "name" | "stars";
+type SortOption = "date" | "name" | "stars" | "activity";
 type SortOrder = "asc" | "desc" | null;
 
 export function ProjectsSection() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [sortBy, setSortBy] = useState<SortOption | null>("stars");
+  const [sortBy, setSortBy] = useState<SortOption | null>("activity");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
 
@@ -74,6 +74,10 @@ export function ProjectsSection() {
             const dateA = new Date(a.date || 0).getTime();
             const dateB = new Date(b.date || 0).getTime();
             cmp = dateA - dateB;
+        } else if (sortBy === "activity") {
+            const dateA = new Date(a.lastActivity || 0).getTime();
+            const dateB = new Date(b.lastActivity || 0).getTime();
+            cmp = dateA - dateB;
         } else if (sortBy === "name") {
             cmp = a.title.localeCompare(b.title);
         } else if (sortBy === "stars") {
@@ -91,8 +95,8 @@ export function ProjectsSection() {
     if (sortBy === option) {
       if (sortOrder === "desc") setSortOrder("asc");
       else if (sortOrder === "asc") {
-        setSortBy(null);
-        setSortOrder(null);
+        setSortBy("activity");
+        setSortOrder("desc");
       }
     } else {
       setSortBy(option);
@@ -110,73 +114,83 @@ export function ProjectsSection() {
     >
       <section>
         <div className="flex flex-col gap-4 mb-6 border-b border-border pb-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold">
-                Projects
-            </h2>
-            {loading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
-          </div>
-          
-          {/* Controls */}
-          {!loading && (
-             <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
-                {/* Tech Filters - Dropdown */}
-                <div className="relative w-full sm:w-48">
-                    <select 
-                        value={selectedTech || ""} 
-                        onChange={(e) => setSelectedTech(e.target.value || null)}
-                        className="w-full appearance-none bg-muted/50 border border-transparent hover:border-border rounded-md py-2 pl-3 pr-8 text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer"
-                    >
-                        <option value="">All Technologies</option>
-                        {allTechs.map(tech => (
-                            <option key={tech} value={tech}>{tech}</option>
-                        ))}
-                    </select>
-                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-                </div>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-2">
+                <h2 className="text-xl font-semibold">
+                    Projets
+                </h2>
+                {loading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+            </div>
+            
+            {!loading && (
+             <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center bg-muted/30 p-1.5 rounded-lg border border-border/50">
+                <span className="text-xs font-medium text-muted-foreground px-1 hidden sm:inline-block">Filtres :</span>
                 
                 {/* Sort Options */}
-                <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground bg-muted/30 p-1.5 rounded-md w-full sm:w-auto">
-                    <span className="text-xs font-medium mr-1 px-2">Sort:</span>
+                <div className="flex items-center gap-1">
                     <button 
                          onClick={() => toggleSort("stars")}
                          className={cn(
-                             "flex items-center gap-1 px-3 py-1.5 rounded-sm transition-all text-xs font-medium", 
+                             "flex items-center gap-1 px-3 py-1.5 rounded-md transition-all text-xs font-medium border border-transparent", 
                              sortBy === "stars" 
-                               ? "bg-background text-foreground shadow-sm ring-1 ring-border" 
+                               ? "bg-background text-foreground shadow-sm border-border" 
                                : "hover:bg-background/50 hover:text-foreground"
                          )}
+                         title="Trier par étoiles"
                     >
-                        Stars
+                        <Star className="h-3.5 w-3.5" />
+                        <span className="sr-only sm:not-sr-only">Stars</span>
                         {sortBy === "stars" && (sortOrder === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />)}
                     </button>
                     <button 
                          onClick={() => toggleSort("date")}
                          className={cn(
-                             "flex items-center gap-1 px-3 py-1.5 rounded-sm transition-all text-xs font-medium", 
+                             "flex items-center gap-1 px-3 py-1.5 rounded-md transition-all text-xs font-medium border border-transparent", 
                              sortBy === "date" 
-                               ? "bg-background text-foreground shadow-sm ring-1 ring-border" 
+                               ? "bg-background text-foreground shadow-sm border-border" 
                                : "hover:bg-background/50 hover:text-foreground"
                          )}
+                         title="Trier par date de création"
                     >
-                        Date
+                        <Clock className="h-3.5 w-3.5" />
+                        <span className="sr-only sm:not-sr-only">Création</span>
                         {sortBy === "date" && (sortOrder === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />)}
                     </button>
                     <button 
                          onClick={() => toggleSort("name")}
                          className={cn(
-                             "flex items-center gap-1 px-3 py-1.5 rounded-sm transition-all text-xs font-medium", 
+                             "flex items-center gap-1 px-3 py-1.5 rounded-md transition-all text-xs font-medium border border-transparent", 
                              sortBy === "name" 
-                               ? "bg-background text-foreground shadow-sm ring-1 ring-border" 
+                               ? "bg-background text-foreground shadow-sm border-border" 
                                : "hover:bg-background/50 hover:text-foreground"
                          )}
+                         title="Trier par nom"
                     >
-                        Name
+                        <ArrowDownAZ className="h-3.5 w-3.5" />
+                        <span className="sr-only sm:not-sr-only">Nom</span>
                         {sortBy === "name" && (sortOrder === "asc" ? <ArrowUpAZ className="h-3 w-3" /> : <ArrowDownAZ className="h-3 w-3" />)}
                     </button>
                 </div>
+
+                <div className="h-4 w-px bg-border hidden sm:block" />
+
+                {/* Tech Filters - Dropdown */}
+                <div className="relative w-full sm:w-48">
+                    <select 
+                        value={selectedTech || ""} 
+                        onChange={(e) => setSelectedTech(e.target.value || null)}
+                        className="w-full appearance-none bg-background border border-border/50 hover:border-border rounded-md py-1.5 pl-3 pr-8 text-xs focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all cursor-pointer h-8"
+                    >
+                        <option value="">Toutes les technologies</option>
+                        {allTechs.map(tech => (
+                            <option key={tech} value={tech}>{tech}</option>
+                        ))}
+                    </select>
+                    <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
+                </div>
              </div>
-          )}
+            )}
+          </div>
         </div>
         
         <div className="divide-y divide-border">
@@ -211,7 +225,7 @@ export function ProjectsSection() {
                 <div className="shrink-0">
                   <Button variant="outline" size="sm" asChild>
                     <Link href={project.link} target="_blank" className="gap-2">
-                      <SiGithub className="h-3 w-3" /> Visit
+                      <SiGithub className="h-3 w-3" /> Visiter
                     </Link>
                   </Button>
                 </div>

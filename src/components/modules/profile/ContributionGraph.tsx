@@ -2,6 +2,7 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { format, parseISO, subDays, eachDayOfInterval, getDay } from "date-fns";
+import { fr } from "date-fns/locale";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { Card } from "@/components/ui/Card";
@@ -89,7 +90,10 @@ export function ContributionGraph() {
   weeks.forEach((week, index) => {
     const firstDay = week.find(d => d.level !== -1);
     if (firstDay && firstDay.date) {
-        const month = format(parseISO(firstDay.date), "MMM");
+        let month = format(parseISO(firstDay.date), "MMM", { locale: fr });
+        // Capitalize first letter
+        month = month.charAt(0).toUpperCase() + month.slice(1);
+        
         if (month !== lastMonth) {
             monthLabels.push({ label: month, weekIndex: index });
             lastMonth = month;
@@ -135,11 +139,11 @@ export function ContributionGraph() {
                 {/* Day labels (Mon, Wed, Fri) - Sunday at top */}
                 <div className="flex flex-col justify-between text-[9px] text-muted-foreground w-6 text-right pb-0.5 shrink-0">
                     <div className="flex-1"></div> {/* Sun */}
-                    <div className="flex-1 flex items-center justify-end">Mon</div>
+                    <div className="flex-1 flex items-center justify-end">Lun</div>
                     <div className="flex-1"></div>
-                    <div className="flex-1 flex items-center justify-end">Wed</div>
+                    <div className="flex-1 flex items-center justify-end">Mer</div>
                     <div className="flex-1"></div>
-                    <div className="flex-1 flex items-center justify-end">Fri</div>
+                    <div className="flex-1 flex items-center justify-end">Ven</div>
                     <div className="flex-1"></div>
                 </div>
 
@@ -171,8 +175,8 @@ export function ContributionGraph() {
                                                     exit={{ opacity: 0 }}
                                                     className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black px-2 py-1 rounded text-[10px] whitespace-nowrap shadow-xl pointer-events-none"
                                                 >
-                                                    <span className="font-semibold">{day.count === 0 ? 'No' : day.count} contributions</span>
-                                                    {' '}on {format(parseISO(day.date), "MMMM do")}
+                                                    <span className="font-semibold">{day.count === 0 ? 'Aucune' : day.count} contribution{day.count > 1 ? 's' : ''}</span>
+                                                    {' '}le {format(parseISO(day.date), "d MMMM", { locale: fr })}
                                                     <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-900 dark:border-t-zinc-100" />
                                                 </motion.div>
                                             )}
@@ -187,13 +191,13 @@ export function ContributionGraph() {
 
             <div className="mt-2 flex items-center justify-end">
                 <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
-                    <span className="mr-1">Less</span>
+                    <span className="mr-1">Moins</span>
                     <div className="w-2.5 h-2.5 rounded-xs bg-muted/40" />
                     <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-900/30" : "bg-violet-300/40"}`} />
                     <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-800/50" : "bg-violet-400/60"}`} />
                     <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-600/70" : "bg-violet-500/80"}`} />
                     <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-400" : "bg-violet-600"}`} />
-                    <span className="ml-1">More</span>
+                    <span className="ml-1">Plus</span>
                 </div>
             </div>
         </div>

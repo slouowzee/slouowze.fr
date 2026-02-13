@@ -68,13 +68,12 @@ export function OverviewSection() {
           </h3>
         </div>
         <article className="border border-border rounded-lg p-6 bg-card/50">
-          <h2 className="text-xl font-semibold mb-4">Hi, I&apos;m {PROFILE.name} 👋</h2>
+          <h2 className="text-xl font-semibold mb-4">Bonjour, je suis {PROFILE.name} 👋</h2>
           <p className="text-muted-foreground leading-relaxed mb-6">
             {PROFILE.bio}
           </p>
           <div className="flex flex-wrap gap-2">
-            <Badge variant="secondary">Currently open to work</Badge>
-            <Badge variant="outline">Based in {PROFILE.location}</Badge>
+            <Badge variant="secondary">À l&apos;écoute d&apos;opportunités</Badge>
           </div>
         </article>
       </div>
@@ -133,7 +132,7 @@ export function OverviewSection() {
 
       <section>
         <h3 className="mb-4 text-base font-semibold flex items-center gap-2">
-          Pinned
+          Projets Épinglés
         </h3>
         {loading ? (
           <div className="grid gap-4 md:grid-cols-2">

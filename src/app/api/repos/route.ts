@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const repos = await getPublicRepos();
     return NextResponse.json(repos);
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: 'Failed to fetch repos' }, { status: 500 });
   }
 }
