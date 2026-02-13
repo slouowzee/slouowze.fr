@@ -12,6 +12,7 @@ interface GitHubRepo {
   url: string;
   stargazerCount: number;
   homepageUrl?: string;
+  pushedAt: string;
   languages?: {
     nodes: GitHubLanguage[];
   };
@@ -101,6 +102,7 @@ export async function getPublicRepos() {
             url
             stargazerCount
             homepageUrl
+            pushedAt
             languages(first: 3, orderBy: {field: SIZE, direction: DESC}) {
               nodes {
                 name
@@ -140,7 +142,8 @@ export async function getPublicRepos() {
         homepage: repo.homepageUrl,
         tags: repo.languages?.nodes?.map((l: GitHubLanguage) => l.name) || [],
         featured: false,
-        stars: repo.stargazerCount
+        stars: repo.stargazerCount,
+        date: repo.pushedAt
     }));
 
   } catch (error) {
