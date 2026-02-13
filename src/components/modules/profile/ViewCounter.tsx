@@ -7,15 +7,20 @@ export function ViewCounter() {
   const [views, setViews] = useState<number | null>(null);
 
   useEffect(() => {
-    // Check if we have a count in localStorage
-    const savedViews = localStorage.getItem("profile_views");
-    const currentViews = savedViews ? parseInt(savedViews, 10) : 0; // Start at 0
+    async function updateViews() {
+      try {
+        const res = await fetch('/api/views', { method: 'POST' });
+        if (res.ok) {
+          const data = await res.json();
+          setViews(data.count);
+        }
+      } catch (error) {
+        console.error("Failed to fetch views", error);
+        setViews(0);
+      }
+    }
     
-    // Simulate API increment
-    // In production, you'd fetch('/api/views', { method: 'POST' })
-    const newViews = currentViews + 1;
-    localStorage.setItem("profile_views", newViews.toString());
-    setViews(newViews);
+    updateViews();
   }, []);
 
   if (views === null) {
@@ -23,7 +28,7 @@ export function ViewCounter() {
   }
 
   return (
-    <div className="flex items-center gap-1 text-xs text-muted-foreground transition-all hover:text-primary" title="Profile Views">
+    <div className="flex items-center gap-1 text-xs text-muted-foreground transition-all hover:text-primary" title="Unique Profile Views">
       <Eye className="h-3 w-3" />
       <span>{views.toLocaleString()}</span>
     </div>

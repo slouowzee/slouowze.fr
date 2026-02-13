@@ -3,15 +3,55 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { Separator } from "@/components/ui/Separator";
-import { PROFILE, PROJECTS, EXPERIENCE, EDUCATION } from "@/lib/data";
+import { PROFILE, EXPERIENCE, EDUCATION } from "@/lib/data";
 import { ContributionGraph } from "../profile/ContributionGraph";
 import { motion } from "framer-motion";
 import { Briefcase, GraduationCap } from "lucide-react";
 import Link from "next/link";
 import { SiGithub } from "react-icons/si";
+import { useEffect, useState } from "react";
+
+// Defined locally to match the structure we want, extending the one from data.ts if needed
+interface Project {
+  title: string;
+  description: string;
+  link: string;
+  tags: string[];
+  featured?: boolean;
+}
 
 export function OverviewSection() {
-  const pinnedProjects = PROJECTS.filter((p) => p.featured);
+  const [pinnedProjects, setPinnedProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        // We use a Next.js API route (setup below) or Server Action usually.
+        // But since this is a Client Component, we can't call getPinnedRepos directly if it uses sensitive env vars that aren't NEXT_PUBLIC.
+        // HOWEVER, getPinnedRepos server-side logic won't work in browser bundle if secrets are process.env.
+        
+        // Strategy: We will create a simple API route wrapper to keep the token secure.
+        const res = await fetch('/api/pinned-repos');
+        if (res.ok) {
+           const data = await res.json();
+           if (data && data.length > 0) {
+             setPinnedProjects(data);
+           } else {
+             setPinnedProjects([]);
+           }
+        } else {
+           setPinnedProjects([]);
+        }
+      } catch (e) {
+        console.error("Failed to fetch pinned repos", e);
+        setPinnedProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchProjects();
+  }, []);
 
   return (
     <motion.div
@@ -95,14 +135,21 @@ export function OverviewSection() {
         <h3 className="mb-4 text-base font-semibold flex items-center gap-2">
           Pinned
         </h3>
-        <div className="grid gap-4 md:grid-cols-2">
-          {pinnedProjects.map((project) => (
-            <Link 
-              key={project.title} 
-              href={project.link}
-              target="_blank"
-              className="group block"
-            >
+        {loading ? (
+          <div className="grid gap-4 md:grid-cols-2">
+            {[1, 2].map((i) => (
+              <div key={i} className="h-32 rounded-md border border-border bg-background/50 animate-pulse" />
+            ))}
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2">
+            {pinnedProjects.map((project) => (
+              <Link 
+                key={project.title} 
+                href={project.link}
+                target="_blank"
+                className="group block"
+              >
               <div className="h-full rounded-md border border-border bg-background p-4 transition-all hover:border-primary/50 hover:shadow-sm">
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-semibold text-primary group-hover:underline">{project.title}</span>
@@ -110,7 +157,7 @@ export function OverviewSection() {
                     <SiGithub className="h-4 w-4" />
                   </div>
                 </div>
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+                <p className="text-muted-foreground mb-4">
                   {project.description}
                 </p>
                 <div className="flex flex-wrap gap-2 mt-auto">
@@ -123,8 +170,9 @@ export function OverviewSection() {
                 </div>
               </div>
             </Link>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </section>
 
       <Separator className="my-8" />

@@ -1,13 +1,47 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { PROJECTS, SERVICES } from "@/lib/data";
+import { SERVICES } from "@/lib/data";
 import { Badge } from "@/components/ui/Badge";
-import { ExternalLink, Star } from "lucide-react";
+import { Star, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { useEffect, useState } from "react";
+import { SiGithub } from "react-icons/si";
+
+interface Project {
+  title: string;
+  description: string;
+  link: string;
+  tags: string[];
+  featured?: boolean;
+  stars?: number;
+}
 
 export function ProjectsSection() {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchRepos() {
+      try {
+        const res = await fetch('/api/repos');
+        if (res.ok) {
+           const data = await res.json();
+           setProjects(data);
+        } else {
+           setProjects([]);
+        }
+      } catch (e) {
+        console.error("Failed to fetch repos", e);
+        setProjects([]);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchRepos();
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -17,16 +51,20 @@ export function ProjectsSection() {
       className="space-y-12"
     >
       <section>
-        <h2 className="mb-6 text-xl font-semibold border-b border-border pb-2">
-          Projects
-        </h2>
+        <div className="flex items-center justify-between mb-6 border-b border-border pb-2">
+          <h2 className="text-xl font-semibold">
+            Projects
+          </h2>
+          {loading && <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />}
+        </div>
+        
         <div className="divide-y divide-border">
-          {PROJECTS.map((project, index) => (
+          {projects.map((project, index) => (
             <motion.div
-              key={project.title}
+              key={project.title + index}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: index * 0.1 }}
+              transition={{ delay: index * 0.05 }}
               className="py-6 first:pt-0"
             >
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
@@ -35,9 +73,6 @@ export function ProjectsSection() {
                     <Link href={project.link} target="_blank" className="text-lg font-semibold text-primary hover:underline">
                       {project.title}
                     </Link>
-                    <Badge variant="outline" className="text-[10px] font-normal uppercase tracking-wide">
-                      Public
-                    </Badge>
                     {project.featured && <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />}
                   </div>
                   <p className="text-muted-foreground max-w-2xl">
@@ -55,7 +90,7 @@ export function ProjectsSection() {
                 <div className="shrink-0">
                   <Button variant="outline" size="sm" asChild>
                     <Link href={project.link} target="_blank" className="gap-2">
-                      <ExternalLink className="h-3 w-3" /> Visit
+                      <SiGithub className="h-3 w-3" /> Visit
                     </Link>
                   </Button>
                 </div>
