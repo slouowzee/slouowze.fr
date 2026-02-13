@@ -6,8 +6,9 @@ import { Separator } from "@/components/ui/Separator";
 import { PROFILE, PROJECTS, EXPERIENCE, EDUCATION } from "@/lib/data";
 import { ContributionGraph } from "../profile/ContributionGraph";
 import { motion } from "framer-motion";
-import { Github, Briefcase, GraduationCap } from "lucide-react";
+import { Briefcase, GraduationCap } from "lucide-react";
 import Link from "next/link";
+import { SiGithub } from "react-icons/si";
 
 export function OverviewSection() {
   const pinnedProjects = PROJECTS.filter((p) => p.featured);
@@ -106,7 +107,7 @@ export function OverviewSection() {
                 <div className="flex items-center justify-between mb-2">
                   <span className="font-semibold text-primary group-hover:underline">{project.title}</span>
                   <div className="text-muted-foreground">
-                    <Github className="h-4 w-4" />
+                    <SiGithub className="h-4 w-4" />
                   </div>
                 </div>
                 <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
@@ -128,7 +129,7 @@ export function OverviewSection() {
 
       <Separator className="my-8" />
 
-      <div className="mb-8">
+      <div className="mb-0">
         <ContributionGraph />
       </div>
     </motion.div>

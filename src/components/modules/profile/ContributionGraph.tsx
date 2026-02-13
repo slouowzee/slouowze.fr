@@ -47,9 +47,12 @@ export function ContributionGraph() {
 
   const getColor = (level: number) => {
     if (level === 0) return "bg-muted/40"; 
-    const lightColors = ["bg-violet-200", "bg-violet-400", "bg-violet-600", "bg-violet-800"];
-    const darkColors = ["bg-violet-900/40", "bg-violet-700/60", "bg-violet-500/80", "bg-violet-400"];
-    return theme === "dark" ? darkColors[Math.min(level, 3)] : lightColors[Math.min(level, 3)];
+    // Levels 1-4: combining color intensity with opacity
+    // Less activity = More transparent + Darker/Lighter base
+    const lightColors = ["bg-violet-300/40", "bg-violet-400/60", "bg-violet-500/80", "bg-violet-600"];
+    const darkColors = ["bg-violet-900/30", "bg-violet-800/50", "bg-violet-600/70", "bg-violet-400"];
+    const index = Math.min(Math.max(level - 1, 0), 3);
+    return theme === "dark" ? darkColors[index] : lightColors[index];
   };
 
   // Group data by weeks starting on SUNDAY
@@ -103,41 +106,53 @@ export function ContributionGraph() {
   return (
     <Card className="p-4 border border-border bg-card/50 overflow-hidden relative">
       <div className="overflow-x-auto pb-2 scrollbar-thin">
-        <div className="min-w-175">
-            {/* Month labels */}
-            <div className="flex text-[10px] text-muted-foreground mb-2 relative h-4 ml-8">
-                {monthLabels.map((m, i) => (
-                    <span 
-                        key={i} 
-                        style={{ left: `${m.weekIndex * 13}px`, position: "absolute" }}
-                    >
-                        {m.label}
-                    </span>
-                ))}
+        <div className="min-w-175 w-full flex flex-col gap-2">
+            
+            {/* Header Row: Month labels aligned with grid columns */}
+            <div className="flex gap-0.5 w-full">
+                {/* Spacer for Day Labels column */}
+                <div className="w-6 shrink-0" />
+                
+                {/* Month Labels Grid */}
+                <div className="flex-1 flex gap-0.5 min-w-0">
+                    {weeks.map((week, index) => {
+                        const labelObj = monthLabels.find(m => m.weekIndex === index);
+                        return (
+                            <div key={index} className="flex-1 relative h-4">
+                                {labelObj && (
+                                    <span className="absolute left-0 bottom-0 text-[10px] text-muted-foreground truncate">
+                                        {labelObj.label}
+                                    </span>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
             </div>
 
-            <div className="flex gap-0.75">
+            {/* Main Content Row: Day Labels + Grid */}
+            <div className="flex gap-0.5 w-full items-stretch">
                 {/* Day labels (Mon, Wed, Fri) - Sunday at top */}
-                <div className="flex flex-col gap-0.75 text-[9px] text-muted-foreground mr-2 w-6 text-right pt-px">
-                    <div className="h-2.5"></div> {/* Sun */}
-                    <div className="h-2.5 leading-2.5">Mon</div>
-                    <div className="h-2.5"></div>
-                    <div className="h-2.5 leading-2.5">Wed</div>
-                    <div className="h-2.5"></div>
-                    <div className="h-2.5 leading-2.5">Fri</div>
-                    <div className="h-2.5"></div>
+                <div className="flex flex-col justify-between text-[9px] text-muted-foreground w-6 text-right pb-0.5 shrink-0">
+                    <div className="flex-1"></div> {/* Sun */}
+                    <div className="flex-1 flex items-center justify-end">Mon</div>
+                    <div className="flex-1"></div>
+                    <div className="flex-1 flex items-center justify-end">Wed</div>
+                    <div className="flex-1"></div>
+                    <div className="flex-1 flex items-center justify-end">Fri</div>
+                    <div className="flex-1"></div>
                 </div>
 
                 {/* Grid */}
-                <div className="flex gap-0.75">
+                <div className="flex flex-1 gap-0.5 w-full min-w-0">
                     {weeks.map((week, wIndex) => (
-                        <div key={wIndex} className="flex flex-col gap-0.75">
+                        <div key={wIndex} className="flex flex-col gap-0.5 flex-1 min-w-0">
                             {week.map((day, dIndex) => {
-                                if (day.level === -1) return <div key={dIndex} className="w-2.5 h-2.5" />;
+                                if (day.level === -1) return <div key={dIndex} className="w-full aspect-square" />;
                                 return (
                                     <div 
                                         key={day.date}
-                                        className="relative"
+                                        className="relative w-full aspect-square"
                                         onMouseEnter={() => setHoveredDay(day)}
                                         onMouseLeave={() => setHoveredDay(null)}
                                     >
@@ -145,7 +160,7 @@ export function ContributionGraph() {
                                             initial={{ opacity: 0, scale: 0 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             transition={{ delay: (wIndex * 7 + dIndex) * 0.0005 }}
-                                            className={`w-2.5 h-2.5 rounded-xs cursor-pointer ${getColor(day.level)} hover:ring-1 hover:ring-primary transition-shadow`}
+                                            className={`w-full h-full rounded-xs cursor-pointer ${getColor(day.level)} hover:ring-1 hover:ring-primary transition-shadow`}
                                         />
                                         
                                         <AnimatePresence>
@@ -170,16 +185,14 @@ export function ContributionGraph() {
                 </div>
             </div>
 
-            <div className="mt-4 flex items-center justify-between">
-                <a href="https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-github-profile/managing-contribution-settings-on-your-profile/why-are-my-contributions-not-showing-up-on-my-profile" target="_blank" className="text-[10px] text-muted-foreground hover:text-primary underline-offset-2 hover:underline">
-                    Learn how we count contributions
-                </a>
+            <div className="mt-2 flex items-center justify-end">
                 <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
                     <span className="mr-1">Less</span>
                     <div className="w-2.5 h-2.5 rounded-xs bg-muted/40" />
-                    <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-900/40" : "bg-violet-200"}`} />
-                    <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-500/80" : "bg-violet-600"}`} />
-                    <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-400" : "bg-violet-800"}`} />
+                    <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-900/30" : "bg-violet-300/40"}`} />
+                    <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-800/50" : "bg-violet-400/60"}`} />
+                    <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-600/70" : "bg-violet-500/80"}`} />
+                    <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-400" : "bg-violet-600"}`} />
                     <span className="ml-1">More</span>
                 </div>
             </div>
