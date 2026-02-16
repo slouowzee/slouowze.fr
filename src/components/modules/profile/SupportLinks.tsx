@@ -15,7 +15,7 @@ export function SupportLinks() {
     >
       <Link href={SUPPORT.kofi} target="_blank" rel="noopener noreferrer">
         <SiKofi className="h-4 w-4 text-[#FF5E5B]" />
-        <span>Buy me a kofee</span>
+        <span>Buy me a Ko-fi</span>
       </Link>
     </Button>
   );

@@ -6,6 +6,7 @@ import { TabNavigation, type TabId } from "./TabNavigation";
 import { OverviewSection } from "./OverviewSection";
 import { SkillsSection } from "./SkillsSection";
 import { ProjectsSection } from "./ProjectsSection";
+import { ServicesSection } from "./ServicesSection";
 import { Footer } from "@/components/layout/Footer";
 
 export function ContentWidget() {
@@ -28,6 +29,9 @@ export function ContentWidget() {
             )}
             {activeTab === "projects" && (
               <ProjectsSection key="projects" />
+            )}
+            {activeTab === "services" && (
+              <ServicesSection key="services" />
             )}
           </AnimatePresence>
 

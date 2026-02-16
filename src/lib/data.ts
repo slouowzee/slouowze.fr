@@ -3,11 +3,12 @@ export interface Profile {
   handle: string;
   role: string;
   bio: string;
-  avatar: string; // URL or path to image
+  about: string;
+  avatar: string;
 }
 
 export interface Social {
-  platform: "GitHub" | "Twitter" | "LinkedIn" | "Instagram";
+  platform: "GitHub" | "Twitter" | "LinkedIn" | "Instagram" | "Linktree" | "Discord" ;
   url: string;
   username: string;
 }
@@ -21,7 +22,7 @@ export interface Project {
 }
 
 export interface Skill {
-  category: "Languages" | "Frameworks" | "Tools" | "Design";
+  category: "Languages" | "Frameworks" | "Tools" | "Design" | "Cloud" | "Soft Skills";
   items: string[];
 }
 
@@ -49,12 +50,15 @@ export const PROFILE: Profile = {
   name: "slouowze",
   handle: "@slouowzee",
   role: "Développeur Web",
-  bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.",
-  avatar: "/avatar.svg", // Local generic placeholder
+  bio: "",
+  about: "",
+  avatar: "/lou.png",
 };
 
 export const SOCIALS: Social[] = [
   { platform: "GitHub", url: "https://github.com/slouowzee", username: "@slouowzee" },
+  { platform: "Linktree", url: "https://link.slouowze.fr", username: "link.slouowze.fr" },
+  { platform: "Discord", url: "https://discord.gg/DBMEGwHXDq", username: "Le monde de Slou" },
   { platform: "Twitter", url: "https://x.com/slouowze", username: "@slouowze" },
   { platform: "Instagram", url: "https://www.instagram.com/slouowze/", username: "@slouowze"},
   { platform: "LinkedIn", url: "https://www.linkedin.com/in/slouowzee/", username: "@slouowzee" },
@@ -63,29 +67,47 @@ export const SOCIALS: Social[] = [
 export const SKILLS: Skill[] = [
   {
     category: "Languages",
-    items: ["TypeScript", "JavaScript", "Python", "SQL", "HTML/CSS"],
+    items: ["TypeScript", "JavaScript", "HTML", "CSS", "PHP", "GO", "C", "C#","Python", "SQL"],
   },
   {
     category: "Frameworks",
-    items: ["Next.js", "React", "Vue.js", "Express", "Tailwind CSS"],
+    items: ["Next.js", "React", "Vue.js", "Node.js", "Bun", "Express", "Expo", "Laravel", "Symfony", "Tailwind CSS", "Bootstrap"],
   },
   {
     category: "Tools",
-    items: ["Git", "Docker", "Figma", "PostgreSQL", "VS Code"],
+    items: ["Git", "Docker", "Canva","Figma", "MariaDB", "PostgreSQL", "Supabase", "VS Code"],
+  },
+  {
+    category: "Cloud",
+    items: ["VPS", "Dokploy", "Vercel", "Firebase"],
+  },
+  {
+    category: "Soft Skills",
+    items: ["Architecture", "UI/UX Design", "Agile", "Teamwork"],
   },
 ];
 
 export const SERVICES: Service[] = [
-  {
-    title: "Service A",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    price: "À partir de 500€",
-  },
-  {
-    title: "Service B",
-    description: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    price: "Sur devis",
-  },
+	{
+		title: "Création de site web",
+		description: "Site web entièrement personnalisé adapté à vos besoins. Une consultation initiale permettra de définir les spécifications du projet.",
+		price: "Sur devis",
+	},
+	{
+		title: "Optimisation de site web",
+		description: "Amélioration et optimisation de votre site actuel. Nous définirons ensemble les axes d'amélioration lors d'une consultation.",
+		price: "Sur devis",
+	},
+	{
+		title: "Développement d'application mobile",
+		description: "Application mobile sur mesure conçue selon vos besoins spécifiques. Un cahier des charges sera établi lors d'une première consultation.",
+		price: "Sur devis",
+	},
+	{
+		title: "Divers conseils",
+		description: "Adressez moi une message via discord, je prendrais le temps de vous répondre.",
+		price: "Gratuit",
+	},
 ];
 
 export const EXPERIENCE: Experience[] = [
@@ -109,3 +131,5 @@ export const EDUCATION: Education[] = [
 export const SUPPORT = {
   kofi: "https://ko-fi.com/slouu"
 };
+
+export const RESUME_URL = "/cv_pg_slouowze.pdf"; // Placeholder, file needs to be added to public/ folder

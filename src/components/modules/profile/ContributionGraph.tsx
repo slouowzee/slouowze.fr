@@ -5,6 +5,7 @@ import { format, parseISO, subDays, eachDayOfInterval, getDay } from "date-fns";
 import { fr } from "date-fns/locale";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { Card } from "@/components/ui/Card";
 
 interface ContributionDay {
@@ -24,6 +25,7 @@ export function ContributionGraph() {
   const [data, setData] = useState<ContributionDay[]>([]);
   const [loading, setLoading] = useState(true);
   const { theme } = useTheme();
+  const [hoveredPos, setHoveredPos] = useState<{ x: number; y: number } | null>(null);
   const [hoveredDay, setHoveredDay] = useState<ContributionDay | null>(null);
   
   useEffect(() => {
@@ -108,9 +110,9 @@ export function ContributionGraph() {
   }
 
   return (
-    <Card className="p-4 border border-border bg-card/50 overflow-hidden relative">
-      <div className="overflow-x-auto pb-2 scrollbar-thin">
-        <div className="min-w-175 w-full flex flex-col gap-2">
+    <Card className="p-4 border border-border bg-card/50 relative">
+      <div className="overflow-x-auto pb-2 no-scrollbar">
+        <div className="min-w-175 w-full flex flex-col gap-2 pt-2 px-0">
             
             {/* Header Row: Month labels aligned with grid columns */}
             <div className="flex gap-0.5 w-full">
@@ -157,8 +159,18 @@ export function ContributionGraph() {
                                     <div 
                                         key={day.date}
                                         className="relative w-full aspect-square"
-                                        onMouseEnter={() => setHoveredDay(day)}
-                                        onMouseLeave={() => setHoveredDay(null)}
+                                        onMouseEnter={(e) => {
+                                            const rect = e.currentTarget.getBoundingClientRect();
+                                            setHoveredPos({
+                                                x: rect.left + rect.width / 2,
+                                                y: rect.top
+                                            });
+                                            setHoveredDay(day);
+                                        }}
+                                        onMouseLeave={() => {
+                                            setHoveredDay(null);
+                                            // Don't clear pos immediately to allow exit animation to use last known position
+                                        }}
                                     >
                                         <motion.div
                                             initial={{ opacity: 0, scale: 0 }}
@@ -166,21 +178,6 @@ export function ContributionGraph() {
                                             transition={{ delay: (wIndex * 7 + dIndex) * 0.0005 }}
                                             className={`w-full h-full rounded-xs cursor-pointer ${getColor(day.level)} hover:ring-1 hover:ring-primary transition-shadow`}
                                         />
-                                        
-                                        <AnimatePresence>
-                                            {hoveredDay === day && (
-                                                <motion.div
-                                                    initial={{ opacity: 0, y: 5 }}
-                                                    animate={{ opacity: 1, y: -5 }}
-                                                    exit={{ opacity: 0 }}
-                                                    className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-50 bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black px-2 py-1 rounded text-[10px] whitespace-nowrap shadow-xl pointer-events-none"
-                                                >
-                                                    <span className="font-semibold">{day.count === 0 ? 'Aucune' : day.count} contribution{day.count > 1 ? 's' : ''}</span>
-                                                    {' '}le {format(parseISO(day.date), "d MMMM", { locale: fr })}
-                                                    <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-900 dark:border-t-zinc-100" />
-                                                </motion.div>
-                                            )}
-                                        </AnimatePresence>
                                     </div>
                                 );
                             })}
@@ -202,6 +199,33 @@ export function ContributionGraph() {
             </div>
         </div>
       </div>
+      
+      {/* Tooltip Portal */}
+      {typeof document !== 'undefined' && createPortal(
+        <AnimatePresence>
+            {hoveredDay && hoveredPos && (
+                <motion.div
+                    initial={{ opacity: 0, marginTop: 0 }}
+                    animate={{ opacity: 1, marginTop: -12 }}
+                    exit={{ opacity: 0 }}
+                    style={{
+                        position: 'fixed',
+                        left: hoveredPos.x,
+                        top: hoveredPos.y,
+                        translateX: '-50%',
+                        translateY: '-100%',
+                        zIndex: 50,
+                    }}
+                    className="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-black px-2 py-1 rounded text-[10px] whitespace-nowrap shadow-xl pointer-events-none"
+                >
+                    <span className="font-semibold">{hoveredDay.count === 0 ? 'Aucune' : hoveredDay.count} contribution{hoveredDay.count > 1 ? 's' : ''}</span>
+                    {' '}le {format(parseISO(hoveredDay.date), "d MMMM", { locale: fr })}
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-zinc-900 dark:border-t-zinc-100" />
+                </motion.div>
+            )}
+        </AnimatePresence>,
+        document.body
+      )}
     </Card>
   );
 }

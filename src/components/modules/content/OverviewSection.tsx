@@ -1,12 +1,12 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
-import { Badge } from "@/components/ui/Badge";
+import { Button } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
-import { PROFILE, EXPERIENCE, EDUCATION } from "@/lib/data";
+import { PROFILE, EXPERIENCE, EDUCATION, RESUME_URL } from "@/lib/data";
 import { ContributionGraph } from "../profile/ContributionGraph";
 import { motion } from "framer-motion";
-import { Briefcase, GraduationCap } from "lucide-react";
+import { Briefcase, GraduationCap, Download } from "lucide-react";
 import Link from "next/link";
 import { SiGithub } from "react-icons/si";
 import { useEffect, useState } from "react";
@@ -27,11 +27,6 @@ export function OverviewSection() {
   useEffect(() => {
     async function fetchProjects() {
       try {
-        // We use a Next.js API route (setup below) or Server Action usually.
-        // But since this is a Client Component, we can't call getPinnedRepos directly if it uses sensitive env vars that aren't NEXT_PUBLIC.
-        // HOWEVER, getPinnedRepos server-side logic won't work in browser bundle if secrets are process.env.
-        
-        // Strategy: We will create a simple API route wrapper to keep the token secure.
         const res = await fetch('/api/pinned-repos');
         if (res.ok) {
            const data = await res.json();
@@ -62,18 +57,18 @@ export function OverviewSection() {
       className="space-y-8"
     >
       <div className="prose prose-sm dark:prose-invert max-w-none">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider">
-            README.md
-          </h3>
-        </div>
         <article className="border border-border rounded-lg p-6 bg-card/50">
-          <h2 className="text-xl font-semibold mb-4">Bonjour, je suis {PROFILE.name} 👋</h2>
+          <h2 className="text-xl font-semibold mb-4">Bonjour, je suis {PROFILE.name}</h2>
           <p className="text-muted-foreground leading-relaxed mb-6">
-            {PROFILE.bio}
+            {PROFILE.about}
           </p>
-          <div className="flex flex-wrap gap-2">
-            <Badge variant="secondary">À l&apos;écoute d&apos;opportunités</Badge>
+          <div>
+            <Button asChild size="sm" className="gap-2 rounded-full font-medium transition-all hover:scale-105 active:scale-95">
+              <Link href={RESUME_URL} target="_blank" rel="noopener noreferrer">
+                <Download className="h-4 w-4" />
+                <span>Télécharger mon CV</span>
+              </Link>
+            </Button>
           </div>
         </article>
       </div>
@@ -177,6 +172,9 @@ export function OverviewSection() {
       <Separator className="my-8" />
 
       <div className="mb-0">
+		<h3 className="mb-4 text-base font-semibold flex items-center gap-2">
+          Mon activité récente
+        </h3>
         <ContributionGraph />
       </div>
     </motion.div>

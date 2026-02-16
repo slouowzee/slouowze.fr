@@ -8,7 +8,7 @@ export function ProfileHeader() {
       <div className="absolute top-0 right-0 md:hidden">
         <ModeToggle />
       </div>
-      <div className="relative h-64 w-64 overflow-hidden rounded-full border border-border shadow-sm mx-auto">
+      <div className="relative h-64 w-64 mx-auto overflow-hidden rounded-full">
         <Image
           src={PROFILE.avatar}
           alt={PROFILE.name}
