@@ -1,23 +1,24 @@
 import { SOCIALS } from "@/lib/data";
-import { Github, Twitter, Linkedin, Mail, Globe, ExternalLink } from "lucide-react";
+import { Github, Twitter, Linkedin, Mail, Globe } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { FaInstagram } from 'react-icons/fa';
 
-// Map platform names to Lucide icons
+// Map platform names to Lucide and react-icons
 const iconMap = {
-  GitHub: Github,
-  Twitter: Twitter,
-  LinkedIn: Linkedin,
-  Email: Mail,
-  Website: Globe,
-  Instagram: ExternalLink, // Placeholder as Instagram isn't standard in lucide
+	GitHub: Github,
+	Twitter: Twitter,
+	LinkedIn: Linkedin,
+	Email: Mail,
+	Website: Globe,
+	Instagram: FaInstagram,
 };
 
 export function SocialLinks() {
   return (
     <div className="flex flex-col gap-2">
       {SOCIALS.map((social) => {
-        const Icon = iconMap[social.platform as keyof typeof iconMap] || ExternalLink;
+        const Icon = iconMap[social.platform as keyof typeof iconMap];
         
         return (
           <Button

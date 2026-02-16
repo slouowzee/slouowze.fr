@@ -2,14 +2,12 @@ export interface Profile {
   name: string;
   handle: string;
   role: string;
-  location: string;
-  email: string;
   bio: string;
   avatar: string; // URL or path to image
 }
 
 export interface Social {
-  platform: "GitHub" | "Twitter" | "LinkedIn" | "Instagram" | "Website" | "Email";
+  platform: "GitHub" | "Twitter" | "LinkedIn" | "Instagram";
   url: string;
   username: string;
 }
@@ -48,43 +46,18 @@ export interface Education {
 }
 
 export const PROFILE: Profile = {
-  name: "John Doe",
+  name: "slouowze",
   handle: "@slouowzee",
-  role: "Développeur Full Stack",
-  location: "Ville, Pays",
-  email: "hello@example.com",
+  role: "Développeur Web",
   bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.",
   avatar: "/avatar.svg", // Local generic placeholder
 };
 
 export const SOCIALS: Social[] = [
-  { platform: "GitHub", url: "https://github.com/slouowzee", username: "slouowzee" },
-  { platform: "Twitter", url: "#", username: "slouowzee" },
-  { platform: "LinkedIn", url: "#", username: "slouowzee" },
-];
-
-export const PROJECTS: Project[] = [
-  {
-    title: "Project A",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    tags: ["Next.js", "Tailwind"],
-    link: "#",
-    featured: true,
-  },
-  {
-    title: "Project B",
-    description: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    tags: ["React", "Node.js"],
-    link: "#",
-    featured: true,
-  },
-  {
-    title: "Project C",
-    description: "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-    tags: ["Vue.js", "Firebase"],
-    link: "#",
-    featured: false,
-  },
+  { platform: "GitHub", url: "https://github.com/slouowzee", username: "@slouowzee" },
+  { platform: "Twitter", url: "https://x.com/slouowze", username: "@slouowze" },
+  { platform: "Instagram", url: "https://www.instagram.com/slouowze/", username: "@slouowze"},
+  { platform: "LinkedIn", url: "https://www.linkedin.com/in/slouowzee/", username: "@slouowzee" },
 ];
 
 export const SKILLS: Skill[] = [
@@ -116,31 +89,23 @@ export const SERVICES: Service[] = [
 ];
 
 export const EXPERIENCE: Experience[] = [
-  {
-    role: "Senior Dev",
-    company: "Entreprise",
-    period: "2021 - Present",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  },
-  {
-    role: "Web Developer",
-    company: "Agence",
-    period: "2019 - 2021",
-    description: "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-  },
+	{
+		role: "Développeur Full Stack",
+		company: "Anjou Web, Montreuil-Bellay",
+		period: "Mai-Juin 2025 / Mars-Avril 2026",
+		description: "Stages réalisés dans le cadre de mon BTS. J'ai pu développer une application web entière, consacrée à la création de documents GDocs.",
+	},
 ];
 
 export const EDUCATION: Education[] = [
-  {
-    degree: "Master en Informatique",
-    institution: "Université",
-    period: "2019 - 2021",
-    description: "Spécialisation en développement logiciel.",
-  },
-  {
-    degree: "Licence Informatique",
-    institution: "Université",
-    period: "2016 - 2019",
-    description: "Bases de l'informatique et algorithmique.",
-  },
+	{
+		degree: "BTS SIO",
+		institution: "Lycée Polyvalent Chevrollier, Angers",
+		period: "2024 - 2026",
+		description: "Spécialisation SLAM (Solutions Logicielles et Applications Métiers), apprentissage web, mobile, logiciel, data, cybersécurité.",
+	}
 ];
+
+export const SUPPORT = {
+  kofi: "https://ko-fi.com/slouu"
+};

@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Mon Portfolio",
-  description: "Portfolio développé avec Next.js et Tailwind CSS",
+	title: "slouowze.fr",
+	description: "Développeur Web, sorti d'études, spécialisé en React/Next.js et Laravel. Je conçois des applications et des sites entièrement fonctionnels et prêts à l'emploi. Découvrez mes projets mais aussi mes services.",
 };
 
 export default function RootLayout({

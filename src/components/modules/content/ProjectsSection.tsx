@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { SERVICES } from "@/lib/data";
-import { Star, Loader2, ArrowDownAZ, ArrowUpAZ, Clock, ChevronDown, ArrowUp, ArrowDown } from "lucide-react";
+import { Star, Loader2, ArrowDownAZ, ArrowUpAZ, Clock, ChevronDown, ArrowUp, ArrowDown, ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { useEffect, useState, useMemo } from "react";
@@ -23,12 +23,15 @@ interface Project {
 type SortOption = "date" | "name" | "stars" | "activity";
 type SortOrder = "asc" | "desc" | null;
 
+const ITEMS_PER_PAGE = 5;
+
 export function ProjectsSection() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState<SortOption | null>("activity");
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     async function fetchRepos() {
@@ -90,6 +93,17 @@ export function ProjectsSection() {
 
     return result;
   }, [projects, sortBy, sortOrder, selectedTech]);
+
+  // Reset page when filters change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [sortBy, sortOrder, selectedTech]);
+
+  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
+  const paginatedProjects = useMemo(() => {
+     const start = (currentPage - 1) * ITEMS_PER_PAGE;
+     return filteredProjects.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredProjects, currentPage]);
 
   const toggleSort = (option: SortOption) => {
     if (sortBy === option) {
@@ -194,7 +208,7 @@ export function ProjectsSection() {
         </div>
         
         <div className="divide-y divide-border">
-          {filteredProjects.map((project, index) => (
+          {paginatedProjects.map((project, index) => (
             <motion.div
               key={project.title + index}
               initial={{ opacity: 0 }}
@@ -233,6 +247,34 @@ export function ProjectsSection() {
             </motion.div>
           ))}
         </div>
+        
+        {totalPages > 1 && (
+          <div className="flex items-center justify-end gap-2 mt-4 pb-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              disabled={currentPage === 1}
+              className="h-8 w-8 p-0 hover:bg-transparent text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
+              title="Page précédente"
+            >
+              <ChevronLeft className="h-5 w-5" />
+              <span className="sr-only">Précédent</span>
+            </Button>
+            
+            <Button
+              variant="ghost" 
+              size="sm"
+              onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+              disabled={currentPage === totalPages}
+               className="h-8 w-8 p-0 hover:bg-transparent text-muted-foreground hover:text-foreground disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
+               title="Page suivante"
+            >
+              <ChevronRight className="h-5 w-5" />
+              <span className="sr-only">Suivant</span>
+            </Button>
+          </div>
+        )}
       </section>
 
       <section>
