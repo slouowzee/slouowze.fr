@@ -21,7 +21,7 @@ export function ProfileHeader() {
         <h1 className="text-2xl font-bold tracking-tight text-foreground">{PROFILE.name}</h1>
         <p className="text-xl font-light text-muted-foreground">{PROFILE.handle}</p>
       </div>
-      <p className="text-base text-foreground leading-relaxed">
+      <p className="text-base text-foreground leading-relaxed whitespace-pre-wrap">
         {PROFILE.bio}
       </p>
     </div>

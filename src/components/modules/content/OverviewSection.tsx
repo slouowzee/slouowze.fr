@@ -58,8 +58,8 @@ export function OverviewSection() {
     >
       <div className="prose prose-sm dark:prose-invert max-w-none">
         <article className="border border-border rounded-lg p-6 bg-card/50">
-          <h2 className="text-xl font-semibold mb-4">Bonjour, je suis {PROFILE.name}</h2>
-          <p className="text-muted-foreground leading-relaxed mb-6">
+          <h2 className="text-xl font-semibold mb-4">Hey, moi c&apos;est {PROFILE.name}</h2>
+          <p className="text-muted-foreground leading-relaxed mb-6 whitespace-pre-wrap">
             {PROFILE.about}
           </p>
           <div>
