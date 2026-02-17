@@ -10,6 +10,7 @@ export function ProfileHeader() {
             src={PROFILE.avatar}
             alt={PROFILE.name}
             fill
+            sizes="(min-width: 768px) 256px, 80px"
             className="object-cover"
             priority
           />

@@ -45,8 +45,8 @@ export function TabNavigation({ activeTab, onTabChange, isProfileExpanded, onTog
                 transition={{ duration: 0.2 }}
               >
                 <div className="relative h-8 w-8 rounded-full overflow-hidden border border-primary/20 p-0.5 shadow-sm">
-                  <div className="relative w-full h-full rounded-full overflow-hidden">
-                    <Image src={PROFILE.avatar} alt={PROFILE.name} fill className="object-cover" />
+                    <div className="relative w-full h-full rounded-full overflow-hidden">
+                    <Image src={PROFILE.avatar} alt={PROFILE.name} fill sizes="32px" className="object-cover" />
                   </div>
                 </div>
                 <div className="flex flex-col">

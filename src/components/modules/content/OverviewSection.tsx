@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
 import { PROFILE, EXPERIENCE, EDUCATION, RESUME_URL, Project } from "@/lib/data";
-import { ContributionGraph } from "../profile/ContributionGraph";
+import { LazyContributionGraph } from "../profile/LazyContributionGraph";
 import { motion } from "framer-motion";
 import { Briefcase, GraduationCap, Download } from "lucide-react";
 import Link from "next/link";
@@ -166,7 +166,7 @@ export function OverviewSection() {
 		<h3 className="mb-4 text-sm md:text-base font-semibold flex items-center gap-2">
           Mon activité récente
         </h3>
-        <ContributionGraph />
+        <LazyContributionGraph />
       </div>
     </motion.div>
   );
