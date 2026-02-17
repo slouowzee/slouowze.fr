@@ -31,7 +31,7 @@ export function ContributionGraph() {
   
   const fetchData = async () => {
     try {
-      const res = await fetch('https://github-contributions-api.jogruber.de/v4/slouowzee?y=last');
+      const res = await fetch('/api/contributions');
       if (!res.ok) throw new Error('Failed to fetch');
       const json: ApiResponse = await res.json();
       setData(json.contributions);
