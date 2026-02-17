@@ -1,15 +1,14 @@
 import { SOCIALS } from "@/lib/data";
-import { Github, Twitter, Linkedin, Mail, Globe, Link } from "lucide-react";
+import { Mail, Globe, Link } from "lucide-react";
 import LinkComponent from "next/link";
 import { Button } from "@/components/ui/Button";
 import { FaDiscord, FaInstagram } from 'react-icons/fa';
-import { SiLinktree } from 'react-icons/si';
+import { SiLinktree, SiGithub, SiX, SiLinkedin } from 'react-icons/si';
 
-// Map platform names to Lucide and react-icons
 const iconMap = {
-	GitHub: Github,
-	Twitter: Twitter,
-	LinkedIn: Linkedin,
+	GitHub: SiGithub,
+	Twitter: SiX,
+	LinkedIn: SiLinkedin,
 	Email: Mail,
 	Website: Globe,
 	Instagram: FaInstagram,

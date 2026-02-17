@@ -1,4 +1,3 @@
-
 const GITHUB_USERNAME = "slouowzee";
 
 interface GitHubLanguage {
@@ -58,7 +57,7 @@ export async function getPinnedRepos() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ query }),
-      next: { revalidate: 60 }, // Cache for 1 minute
+      next: { revalidate: 60 },
     });
 
     const json = await res.json();
@@ -75,7 +74,7 @@ export async function getPinnedRepos() {
         description: repo.description,
         link: repo.url,
         tags: repo.languages?.nodes?.map((l: GitHubLanguage) => l.name) || [],
-        featured: true, // They are pinned, so featured
+        featured: true,
         stars: repo.stargazerCount
     }));
 

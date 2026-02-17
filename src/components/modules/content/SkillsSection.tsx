@@ -31,34 +31,39 @@ const getTechIcon = (skill: string) => {
   if (s.includes("agile")) return <Zap className="h-4 w-4 text-yellow-400" />;
   if (s.includes("teamwork")) return <Users className="h-4 w-4 text-green-400" />;
 
+  // Langages
   if (s.includes("typescript")) return <SiTypescript className="text-[#3178C6]" />;
   if (s.includes("javascript")) return <SiJavascript className="text-[#F7DF1E]" />;
   if (s.includes("html")) return <SiHtml5 className="text-[#E34F26]" />;
   if (s.includes("css")) return <SiCss3 className="text-[#1572B6]" />;
+  if (s.includes("python")) return <SiPython className="text-[#3776AB]" />;
+  if (s.includes("php")) return <SiPhp className="text-[#777BB4]" />;
+  if (s.includes("go")) return <TbBrandGolang className="text-[#00ADD8]" />;
+  if (s === "c#") return <Image src="/csharp.svg" alt="C#" width={20} height={20} className="w-5 h-5" />;
+  if (s === "c") return <Image src="/c.svg" alt="C" width={20} height={20} className="w-5 h-5" />;
+
+  // Tools & Workflow
+  if (s.includes("docker")) return <SiDocker className="text-[#2496ED]" />;
+  if (s.includes("git")) return <SiGit className="text-[#F05032]" />;
+  if (s.includes("figma")) return <SiFigma className="text-[#F24E1E]" />;
+  if (s.includes("canva")) return <SiCanva className="text-[#00C4CC]" />;
+  if (s.includes("vsc") || s.includes("code")) return <TbBrandVscode className="text-[#007ACC]" />;
+  if (s.includes("postgresql") || s.includes("sql")) return <SiPostgresql className="text-[#4169E1]" />;
+  if (s.includes("supabase")) return <SiSupabase className="text-[#3ECF8E]" />;
+  if (s.includes("mariadb")) return <SiMariadb className="text-[#003545]" />;
+
+  // Framework 6 libs
   if (s.includes("next")) return <SiNextdotjs className="text-foreground" />;
   if (s.includes("react")) return <SiReact className="text-[#61DAFB]" />;
   if (s.includes("tailwind")) return <SiTailwindcss className="text-[#06B6D4]" />;
   if (s.includes("bootstrap")) return <SiBootstrap className="text-[#7952B3]" />;
   if (s.includes("vue")) return <SiVuedotjs className="text-[#4FC08D]" />;
-  if (s.includes("python")) return <SiPython className="text-[#3776AB]" />;
-  if (s.includes("postgresql") || s.includes("sql")) return <SiPostgresql className="text-[#4169E1]" />;
-  if (s.includes("supabase")) return <SiSupabase className="text-[#3ECF8E]" />;
-  if (s.includes("mariadb")) return <SiMariadb className="text-[#003545]" />;
-  if (s.includes("php")) return <SiPhp className="text-[#777BB4]" />;
-  if (s.includes("go")) return <TbBrandGolang className="text-[#00ADD8]" />;
-  if (s.includes("c#")) return <Image src="/csharp.svg" alt="C#" width={20} height={20} className="w-5 h-5" />;
-  if (s.includes("bun")) return <SiBun className="text-[#fbf0df]" />;
   if (s.includes("express")) return <SiExpress className="text-foreground" />;
   if (s.includes("expo")) return <SiExpo className="text-foreground" />;
-  if (s.includes("c++") || (s === "c" && !s.includes("#"))) return <SiCplusplus className="text-[#00599C]" />;
   if (s.includes("laravel")) return <SiLaravel className="text-[#FF2D20]" />;
   if (s.includes("symfony")) return <SiSymfony className="text-foreground" />;
-  if (s.includes("docker")) return <SiDocker className="text-[#2496ED]" />;
-  if (s.includes("git")) return <SiGit className="text-[#F05032]" />;
-  if (s.includes("figma")) return <SiFigma className="text-[#F24E1E]" />;
-  if (s.includes("canva")) return <SiCanva className="text-[#00C4CC]" />;
   if (s.includes("node")) return <SiNodedotjs className="text-[#339933]" />;
-  if (s.includes("vsc") || s.includes("code")) return <TbBrandVscode className="text-[#007ACC]" />;
+  if (s.includes("bun")) return <SiBun className="text-[#fbf0df]" />;
   
   return <Terminal className="h-4 w-4 opacity-50" />;
 };
@@ -72,12 +77,12 @@ export function SkillsSection() {
       className="space-y-8"
     >
       <div className="flex flex-col gap-1">
-        <h2 className="text-2xl font-bold tracking-tight">Tech Stack</h2>
+        <h2 className="text-2xl font-bold tracking-tight">Ma stack</h2>
         <p className="text-sm text-muted-foreground">Les outils et technologies que j&apos;utilise au quotidien.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-        {/* Frameworks - Big Bento Box */}
+        {/* Frameworks */}
         <div className="md:col-span-8 p-6 rounded-3xl border border-border bg-card/30 flex flex-col justify-between overflow-hidden relative group">
           <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity pointer-events-none transform rotate-12">
             <Code2 size={120} />
@@ -97,7 +102,7 @@ export function SkillsSection() {
           </div>
         </div>
 
-        {/* Languages - Small Bento Box */}
+        {/* Languages */}
         <div className="md:col-span-4 md:row-span-2 p-6 rounded-3xl border border-border bg-card/30 flex flex-col justify-between overflow-hidden relative">
           <div className="absolute -right-4 -bottom-4 opacity-5 pointer-events-none transform -rotate-12">
             <Globe size={140} />
@@ -153,13 +158,13 @@ export function SkillsSection() {
           </div>
         </div>
 
-        {/* Tools & Workflow - Wide Bento Box */}
+        {/* Tools & Workflow */}
         <div className="md:col-span-12 p-6 rounded-3xl border border-border bg-card/30">
            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div className="md:max-w-50">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-primary/60 mb-2 block">Écosystème</span>
                 <h3 className="text-lg font-bold">Outils & Workflow</h3>
-                <p className="text-xs text-muted-foreground mt-2">Pour des cycles de développement rapides et fiables.</p>
+				<p className="text-xs text-muted-foreground mt-2">Découvrez mes outils préférés et comment je travaille.</p>
               </div>
               
               <div className="flex flex-wrap gap-6 justify-center">

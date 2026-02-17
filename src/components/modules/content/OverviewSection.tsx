@@ -3,22 +3,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Separator } from "@/components/ui/Separator";
-import { PROFILE, EXPERIENCE, EDUCATION, RESUME_URL } from "@/lib/data";
+import { PROFILE, EXPERIENCE, EDUCATION, RESUME_URL, Project } from "@/lib/data";
 import { ContributionGraph } from "../profile/ContributionGraph";
 import { motion } from "framer-motion";
 import { Briefcase, GraduationCap, Download } from "lucide-react";
 import Link from "next/link";
 import { SiGithub } from "react-icons/si";
 import { useEffect, useState } from "react";
-
-// Defined locally to match the structure we want, extending the one from data.ts if needed
-interface Project {
-  title: string;
-  description: string;
-  link: string;
-  tags: string[];
-  featured?: boolean;
-}
 
 export function OverviewSection() {
   const [pinnedProjects, setPinnedProjects] = useState<Project[]>([]);

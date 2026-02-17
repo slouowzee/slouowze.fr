@@ -7,22 +7,12 @@ import { Button } from "@/components/ui/Button";
 import { useEffect, useState, useMemo } from "react";
 import { SiGithub } from "react-icons/si";
 import { cn } from "@/lib/utils";
-
-interface Project {
-  title: string;
-  description: string;
-  link: string;
-  tags: string[];
-  featured?: boolean;
-  stars?: number;
-  date?: string; // CreatedAt
-  lastActivity?: string; // PushedAt
-}
+import { Project } from "@/lib/data";
 
 type SortOption = "date" | "name" | "stars" | "activity";
 type SortOrder = "asc" | "desc" | null;
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 8;
 
 export function ProjectsSection() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -206,43 +196,60 @@ export function ProjectsSection() {
           </div>
         </div>
         
-        <div className="divide-y divide-border">
+        <div className="grid gap-4 md:grid-cols-2">
           {paginatedProjects.map((project, index) => (
             <motion.div
               key={project.title + index}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.05 }}
-              className="py-6 first:pt-0"
+              className="h-full"
             >
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-3">
-                    <Link href={project.link} target="_blank" className="text-lg font-semibold text-primary hover:underline">
-                      {project.title}
-                    </Link>
-                    {project.featured && <Star className="h-4 w-4 text-yellow-500 fill-yellow-500" />}
+              <Link 
+                href={project.link} 
+                target="_blank" 
+                className="group block h-full active:scale-[0.98] transition-all"
+              >
+                <div className="h-full flex flex-col rounded-md border border-border bg-background p-4 transition-all hover:border-primary/50 hover:shadow-sm">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="flex items-center gap-2">
+                      <span className="font-semibold text-primary group-hover:underline truncate max-w-[140px] sm:max-w-none">
+                        {project.title}
+                      </span>
+                      {project.featured && <Star className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500 shrink-0" />}
+                    </div>
+                    <div className="flex items-center gap-2 text-muted-foreground shrink-0">
+                      {(project.stars ?? 0) > 0 && (
+                        <div className="flex items-center gap-1 text-xs">
+                          <Star className="h-3.5 w-3.5" />
+                          <span>{project.stars}</span>
+                        </div>
+                      )}
+                      <SiGithub className="h-4 w-4" />
+                    </div>
                   </div>
-                  <p className="text-muted-foreground max-w-2xl">
+                  
+                  <p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-grow">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-3 pt-2">
-                    {project.tags.map((tag) => (
-                      <div key={tag} className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <span className="h-2 w-2 rounded-full bg-primary" />
+                  
+                  <div className="flex flex-wrap gap-2 mt-auto">
+                    {project.tags.slice(0, 3).map((tag) => (
+                      <span 
+                        key={tag} 
+                        className="text-[10px] bg-secondary text-secondary-foreground px-1.5 py-0.5 rounded-full border border-border"
+                      >
                         {tag}
-                      </div>
+                      </span>
                     ))}
+                    {project.tags.length > 3 && (
+                       <span className="text-[10px] text-muted-foreground self-center">
+                         +{project.tags.length - 3}
+                       </span>
+                    )}
                   </div>
                 </div>
-                <div className="shrink-0">
-                  <Button variant="outline" size="sm" asChild>
-                    <Link href={project.link} target="_blank" className="gap-2">
-                      <SiGithub className="h-3 w-3" /> Visiter
-                    </Link>
-                  </Button>
-                </div>
-              </div>
+              </Link>
             </motion.div>
           ))}
         </div>

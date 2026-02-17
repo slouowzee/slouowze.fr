@@ -50,8 +50,6 @@ export function ContributionGraph() {
 
   const getColor = (level: number) => {
     if (level === 0) return "bg-muted/40"; 
-    // Levels 1-4: combining color intensity with opacity
-    // Less activity = More transparent + Darker/Lighter base
     const lightColors = ["bg-violet-300/40", "bg-violet-400/60", "bg-violet-500/80", "bg-violet-600"];
     const darkColors = ["bg-violet-900/30", "bg-violet-800/50", "bg-violet-600/70", "bg-violet-400"];
     const index = Math.min(Math.max(level - 1, 0), 3);
@@ -64,7 +62,7 @@ export function ContributionGraph() {
   
   if (data.length > 0) {
     const firstDate = parseISO(data[0].date);
-    const dayOfWeek = getDay(firstDate); // 0 = Sunday
+    const dayOfWeek = getDay(firstDate);
     
     for (let i = 0; i < dayOfWeek; i++) {
         currentWeek.push({ date: "", count: 0, level: -1 });
@@ -93,7 +91,6 @@ export function ContributionGraph() {
     const firstDay = week.find(d => d.level !== -1);
     if (firstDay && firstDay.date) {
         let month = format(parseISO(firstDay.date), "MMM", { locale: fr });
-        // Capitalize first letter
         month = month.charAt(0).toUpperCase() + month.slice(1);
         
         if (month !== lastMonth) {
@@ -121,7 +118,7 @@ export function ContributionGraph() {
                 
                 {/* Month Labels Grid */}
                 <div className="flex-1 flex gap-0.5 min-w-0">
-                    {weeks.map((week, index) => {
+                    {weeks.map((_, index) => {
                         const labelObj = monthLabels.find(m => m.weekIndex === index);
                         return (
                             <div key={index} className="flex-1 relative h-4">
@@ -138,7 +135,7 @@ export function ContributionGraph() {
 
             {/* Main Content Row: Day Labels + Grid */}
             <div className="flex gap-0.5 w-full items-stretch">
-                {/* Day labels (Mon, Wed, Fri) - Sunday at top */}
+                {/* Day labels (Mon, Wed, Fri)*/}
                 <div className="flex flex-col justify-between text-[9px] text-muted-foreground w-6 text-right pb-0.5 shrink-0">
                     <div className="flex-1"></div> {/* Sun */}
                     <div className="flex-1 flex items-center justify-end">Lun</div>
@@ -169,7 +166,6 @@ export function ContributionGraph() {
                                         }}
                                         onMouseLeave={() => {
                                             setHoveredDay(null);
-                                            // Don't clear pos immediately to allow exit animation to use last known position
                                         }}
                                     >
                                         <motion.div

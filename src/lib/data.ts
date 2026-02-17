@@ -16,9 +16,12 @@ export interface Social {
 export interface Project {
   title: string;
   description: string;
-  tags: string[];
   link: string;
-  featured: boolean; // "Pins"
+  tags: string[];
+  featured?: boolean;
+  stars?: number;
+  date?: string; // CreatedAt
+  lastActivity?: string; // PushedAt
 }
 
 export interface Skill {

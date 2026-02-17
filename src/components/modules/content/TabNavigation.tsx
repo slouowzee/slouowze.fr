@@ -40,8 +40,6 @@ export function TabNavigation({ activeTab, onTabChange }: TabNavigationProps) {
               <Icon className="h-3.5 w-3.5 opacity-70" />
               <span>{tab.label}</span>
               
-              {/* Optional: Close icon effect for realism */}
-              {/* <span className="ml-auto opacity-0 group-hover:opacity-50 hover:!opacity-100 p-0.5 rounded-md hover:bg-muted-foreground/20">×</span> */}
             </button>
           );
         })}

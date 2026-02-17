@@ -12,7 +12,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "default", size = "default", asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     
-    // Simple variant mapping instead of full CVA to keep dependencies low as requested
     const variants = {
       default: "bg-primary text-primary-foreground hover:bg-primary/90 shadow",
       outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",

@@ -14,7 +14,7 @@ export function ContentWidget() {
 
   return (
     <div className="flex h-full w-full flex-col relative">
-      {/* Navigation Bar - Sticky Top */}
+      {/* Navigation Bar */}
       <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
       
       {/* Main Scrollable Content */}

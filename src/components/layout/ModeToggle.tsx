@@ -9,7 +9,6 @@ export function ModeToggle() {
   const { setTheme, theme } = useTheme();
 
   const toggleTheme = (e: React.MouseEvent<HTMLButtonElement>) => {
-    // Fallback for browsers without View Transitions
     if (!document.startViewTransition) {
       setTheme(theme === "light" ? "dark" : "light");
       return;
@@ -35,7 +34,6 @@ export function ModeToggle() {
         `circle(${endRadius}px at ${x}px ${y}px)`,
       ];
 
-      // Always animate the NEW view expanding
       document.documentElement.animate(
         {
           clipPath: clipPath,
