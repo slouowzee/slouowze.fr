@@ -213,7 +213,7 @@ export function ProjectsSection() {
                 <div className="h-full flex flex-col rounded-md border border-border bg-background p-4 transition-all hover:border-primary/50 hover:shadow-sm">
                   <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
-                      <span className="font-semibold text-primary group-hover:underline truncate max-w-[140px] sm:max-w-none">
+                      <span className="font-semibold text-primary group-hover:underline truncate max-w-35 sm:max-w-none">
                         {project.title}
                       </span>
                       {project.featured && <Star className="h-3.5 w-3.5 text-yellow-500 fill-yellow-500 shrink-0" />}
@@ -229,7 +229,7 @@ export function ProjectsSection() {
                     </div>
                   </div>
                   
-                  <p className="text-sm text-muted-foreground line-clamp-2 mb-4 flex-grow">
+                  <p className="text-sm text-muted-foreground line-clamp-2 mb-4 grow">
                     {project.description}
                   </p>
                   

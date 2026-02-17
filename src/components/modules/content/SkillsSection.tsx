@@ -9,7 +9,7 @@ import {
   SiTailwindcss, SiVuedotjs, SiPython, SiPostgresql, 
   SiDocker, SiGit, SiFigma, SiNodedotjs, 
   SiPhp, SiLaravel, SiSymfony,
-  SiMariadb, SiCanva, SiCplusplus,
+  SiMariadb, SiCanva,
   SiBun, SiExpo, SiExpress, SiHtml5, SiCss3,
   SiVercel, SiFirebase, SiBootstrap, SiSupabase
 } from "react-icons/si";
@@ -133,7 +133,7 @@ export function SkillsSection() {
           <h3 className="text-lg font-bold mb-4">Cloud & Hosting</h3>
           <div className="flex flex-wrap gap-2">
              {SKILLS.find(s => s.category === "Cloud")?.items.map(skill => (
-                <div key={skill} className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-background/50 border border-border/50 text-[11px] font-semibold">
+                <div key={skill} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-background/50 border border-border/50 text-[11px] font-semibold hover:border-primary/20 transition-colors">
                   {getTechIcon(skill)}
                   {skill}
                 </div>
@@ -150,7 +150,7 @@ export function SkillsSection() {
           <h3 className="text-lg font-bold mb-4">Soft Skills</h3>
           <div className="flex flex-wrap gap-2">
              {SKILLS.find(s => s.category === "Soft Skills")?.items.map(skill => (
-                <div key={skill} className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-background/50 border border-border/50 text-[11px] font-semibold">
+                <div key={skill} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-background/50 border border-border/50 text-[11px] font-semibold hover:border-primary/20 transition-colors">
                   {getTechIcon(skill)}
                   {skill}
                 </div>
@@ -160,20 +160,20 @@ export function SkillsSection() {
 
         {/* Tools & Workflow */}
         <div className="md:col-span-12 p-6 rounded-3xl border border-border bg-card/30">
-           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div className="md:max-w-50">
+           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+              <div className="lg:col-span-1">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-primary/60 mb-2 block">Écosystème</span>
                 <h3 className="text-lg font-bold">Outils & Workflow</h3>
-				<p className="text-xs text-muted-foreground mt-2">Découvrez mes outils préférés et comment je travaille.</p>
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed max-w-xs">Découvrez mes outils préférés et comment je travaille.</p>
               </div>
               
-              <div className="flex flex-wrap gap-6 justify-center">
+              <div className="lg:col-span-2 flex flex-wrap gap-4 md:gap-6 lg:justify-start">
                 {SKILLS.find(s => s.category === "Tools")?.items.map(skill => (
-                  <div key={skill} className="flex flex-col items-center gap-2 group">
-                    <div className="w-12 h-12 rounded-2xl bg-background/40 border border-border/50 flex items-center justify-center text-xl group-hover:bg-primary/10 group-hover:border-primary/30 transition-all shadow-sm">
+                  <div key={skill} className="flex flex-col items-center gap-2 group min-w-16">
+                    <div className="w-14 h-14 rounded-2xl bg-background/40 border border-border/50 flex items-center justify-center text-2xl group-hover:bg-primary/5 group-hover:border-primary/20 transition-all shadow-sm">
                       {getTechIcon(skill)}
                     </div>
-                    <span className="text-[10px] font-bold text-muted-foreground uppercase">{skill}</span>
+                    <span className="text-[9px] font-bold text-muted-foreground/80 uppercase tracking-tight">{skill}</span>
                   </div>
                 ))}
               </div>

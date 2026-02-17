@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { format, parseISO, subDays, eachDayOfInterval, getDay } from "date-fns";
 import { fr } from "date-fns/locale";
 import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Card } from "@/components/ui/Card";
 
@@ -27,26 +27,34 @@ export function ContributionGraph() {
   const { theme } = useTheme();
   const [hoveredPos, setHoveredPos] = useState<{ x: number; y: number } | null>(null);
   const [hoveredDay, setHoveredDay] = useState<ContributionDay | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch('https://github-contributions-api.jogruber.de/v4/slouowzee?y=last');
-        if (!res.ok) throw new Error('Failed to fetch');
-        const json: ApiResponse = await res.json();
-        setData(json.contributions);
-      } catch (error) {
-        console.error("Error loading contributions:", error);
-        const today = new Date();
-        const days = eachDayOfInterval({ start: subDays(today, 365), end: today });
-        setData(days.map(d => ({ date: format(d, 'yyyy-MM-dd'), count: 0, level: 0 })));
-      } finally {
-        setLoading(false);
-      }
+  const fetchData = async () => {
+    try {
+      const res = await fetch('https://github-contributions-api.jogruber.de/v4/slouowzee?y=last');
+      if (!res.ok) throw new Error('Failed to fetch');
+      const json: ApiResponse = await res.json();
+      setData(json.contributions);
+    } catch (error) {
+      console.error("Error loading contributions:", error);
+      const today = new Date();
+      const days = eachDayOfInterval({ start: subDays(today, 365), end: today });
+      setData(days.map(d => ({ date: format(d, 'yyyy-MM-dd'), count: 0, level: 0 })));
+    } finally {
+      setLoading(false);
     }
+  };
 
+  useEffect(() => {
     fetchData();
   }, []);
+
+  // Scroll to the right on load
+  useEffect(() => {
+    if (!loading && scrollRef.current) {
+        scrollRef.current.scrollLeft = scrollRef.current.scrollWidth;
+    }
+  }, [loading]);
 
   const getColor = (level: number) => {
     if (level === 0) return "bg-muted/40"; 
@@ -107,23 +115,24 @@ export function ContributionGraph() {
   }
 
   return (
-    <Card className="p-4 border border-border bg-card/50 relative">
-      <div className="overflow-x-auto pb-2 no-scrollbar">
-        <div className="min-w-175 w-full flex flex-col gap-2 pt-2 px-0">
+    <Card className="p-4 border border-border bg-card relative">
+      <div 
+        ref={scrollRef}
+        className="overflow-x-auto pb-2 no-scrollbar scroll-smooth"
+      >
+        <div className="min-w-200 md:min-w-0 w-full flex flex-col gap-2 pt-2 px-0">
             
-            {/* Header Row: Month labels aligned with grid columns */}
-            <div className="flex gap-0.5 w-full">
-                {/* Spacer for Day Labels column */}
-                <div className="w-6 shrink-0" />
+            <div className="flex gap-1 w-full relative">
+                <div className="w-8 shrink-0 sticky left-0 z-20 bg-card -ml-8 pl-0" />
                 
                 {/* Month Labels Grid */}
-                <div className="flex-1 flex gap-0.5 min-w-0">
+                <div className="flex-1 flex gap-1 min-w-0">
                     {weeks.map((_, index) => {
                         const labelObj = monthLabels.find(m => m.weekIndex === index);
                         return (
                             <div key={index} className="flex-1 relative h-4">
                                 {labelObj && (
-                                    <span className="absolute left-0 bottom-0 text-[10px] text-muted-foreground truncate">
+                                    <span className="absolute left-1 bottom-0 text-[10px] text-muted-foreground whitespace-nowrap">
                                         {labelObj.label}
                                     </span>
                                 )}
@@ -133,23 +142,23 @@ export function ContributionGraph() {
                 </div>
             </div>
 
-            {/* Main Content Row: Day Labels + Grid */}
-            <div className="flex gap-0.5 w-full items-stretch">
-                {/* Day labels (Mon, Wed, Fri)*/}
-                <div className="flex flex-col justify-between text-[9px] text-muted-foreground w-6 text-right pb-0.5 shrink-0">
-                    <div className="flex-1"></div> {/* Sun */}
-                    <div className="flex-1 flex items-center justify-end">Lun</div>
+            {/* Main Content */}
+            <div className="flex gap-1 w-full items-stretch relative">
+                {/* Day labels */}
+                <div className="flex flex-col justify-between text-[9px] text-muted-foreground w-8 text-left pb-0.5 shrink-0 sticky left-0 z-20 bg-card pl-0 -ml-8">
+                    <div className="flex-1"></div> { /* Sun */ }
+                    <div className="flex-1 flex items-center justify-start">Lun</div>
                     <div className="flex-1"></div>
-                    <div className="flex-1 flex items-center justify-end">Mer</div>
+                    <div className="flex-1 flex items-center justify-start">Mer</div>
                     <div className="flex-1"></div>
-                    <div className="flex-1 flex items-center justify-end">Ven</div>
+                    <div className="flex-1 flex items-center justify-start">Ven</div>
                     <div className="flex-1"></div>
                 </div>
 
                 {/* Grid */}
-                <div className="flex flex-1 gap-0.5 w-full min-w-0">
+                <div className="flex flex-1 gap-1 w-full min-w-0">
                     {weeks.map((week, wIndex) => (
-                        <div key={wIndex} className="flex flex-col gap-0.5 flex-1 min-w-0">
+                        <div key={wIndex} className="flex flex-col gap-1 flex-1 min-w-0">
                             {week.map((day, dIndex) => {
                                 if (day.level === -1) return <div key={dIndex} className="w-full aspect-square" />;
                                 return (
@@ -172,7 +181,7 @@ export function ContributionGraph() {
                                             initial={{ opacity: 0, scale: 0 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             transition={{ delay: (wIndex * 7 + dIndex) * 0.0005 }}
-                                            className={`w-full h-full rounded-xs cursor-pointer ${getColor(day.level)} hover:ring-1 hover:ring-primary transition-shadow`}
+                                            className={`w-full h-full rounded-[1px] cursor-pointer ${getColor(day.level)} hover:ring-1 hover:ring-primary transition-shadow`}
                                         />
                                     </div>
                                 );
@@ -182,14 +191,14 @@ export function ContributionGraph() {
                 </div>
             </div>
 
-            <div className="mt-2 flex items-center justify-end">
+            <div className="mt-2 flex items-center justify-end pr-2 md:pr-0">
                 <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
                     <span className="mr-1">Moins</span>
-                    <div className="w-2.5 h-2.5 rounded-xs bg-muted/40" />
-                    <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-900/30" : "bg-violet-300/40"}`} />
-                    <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-800/50" : "bg-violet-400/60"}`} />
-                    <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-600/70" : "bg-violet-500/80"}`} />
-                    <div className={`w-2.5 h-2.5 rounded-xs ${theme === 'dark' ? "bg-violet-400" : "bg-violet-600"}`} />
+                    <div className="w-2 h-2 rounded-[1px] bg-muted/40" />
+                    <div className={`w-2 h-2 rounded-[1px] ${theme === 'dark' ? "bg-violet-900/30" : "bg-violet-300/40"}`} />
+                    <div className={`w-2 h-2 rounded-[1px] ${theme === 'dark' ? "bg-violet-800/50" : "bg-violet-400/60"}`} />
+                    <div className={`w-2 h-2 rounded-[1px] ${theme === 'dark' ? "bg-violet-600/70" : "bg-violet-500/80"}`} />
+                    <div className={`w-2 h-2 rounded-[1px] ${theme === 'dark' ? "bg-violet-400" : "bg-violet-600"}`} />
                     <span className="ml-1">Plus</span>
                 </div>
             </div>
