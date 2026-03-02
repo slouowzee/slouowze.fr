@@ -1,7 +1,5 @@
 # slouowze.fr
 
-Mon **portfolio** personnel, développé avec **Next.js 15** (App Router) et TypeScript.
-
 > [!WARNING]
 > Ce dépôt est public uniquement à des fins de transparence et de démonstration.
 > Je ne consens **pas** aux forks, ni à l'utilisation ou la réutilisation de tout ou partie du code source, du design ou des contenus présents dans ce projet.
@@ -18,17 +16,6 @@ Mon **portfolio** personnel, développé avec **Next.js 15** (App Router) et Typ
 
 ---
 
-## Développement local
-
-```bash
-bun install
-bun dev
-```
-
-Application disponible sur `http://localhost:3000`.
-
----
-
 ## Licence & utilisation
 
 > [!IMPORTANT]
@@ -41,4 +28,4 @@ Application disponible sur `http://localhost:3000`.
 ## Contact
 
 - GitHub : [@slouowzee](https://github.com/slouowzee)
-- Site : [slouowze.fr](https://slouowze.fr)
+- Discord : [Le monde de Slou](https://discord.com/invite/DBMEGwHXDq)
