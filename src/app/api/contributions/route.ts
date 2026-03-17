@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 export async function GET() {
   try {
     const res = await fetch('https://github-contributions-api.jogruber.de/v4/slouowzee?y=last', {
-      next: { revalidate: 3600 } // Cache for 1 hour
+      next: { revalidate: 3600 }
     });
     
     if (!res.ok) {

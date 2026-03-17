@@ -15,7 +15,6 @@ import {
 } from "react-icons/si";
 import { TbBrandVscode, TbBrandGolang, TbShip } from "react-icons/tb";
 
-// Helper function to map skills to brand icons
 const getTechIcon = (skill: string) => {
   const s = skill.toLowerCase();
   

@@ -58,7 +58,6 @@ export function ProjectsSection() {
         result = result.filter(p => p.tags.includes(selectedTech));
     }
 
-    // Sort
     if (sortBy && sortOrder) {
       result.sort((a, b) => {
         let cmp = 0;
@@ -83,7 +82,6 @@ export function ProjectsSection() {
     return result;
   }, [projects, sortBy, sortOrder, selectedTech]);
 
-  // Reset page when filters change
   useEffect(() => {
     setCurrentPage(1);
   }, [sortBy, sortOrder, selectedTech]);
@@ -177,7 +175,7 @@ export function ProjectsSection() {
 
                 <div className="h-4 w-px bg-border hidden sm:block" />
 
-                {/* Tech Filters - Dropdown */}
+                {/* Tech Filters */}
                 <div className="relative w-full sm:w-48">
                     <select 
                         value={selectedTech || ""} 

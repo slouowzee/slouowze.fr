@@ -162,7 +162,7 @@ export function OverviewSection() {
 
       <Separator className="my-8 md:my-10" />
 
-      <div className="mb-0">
+      <div className="mb-0 min-w-0 w-full">
 		<h3 className="mb-4 text-sm md:text-base font-semibold flex items-center gap-2">
           Mon activité récente
         </h3>

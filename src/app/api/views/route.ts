@@ -4,7 +4,6 @@ import path from 'path';
 
 const DATA_FILE = path.join(process.cwd(), 'data', 'views.json');
 
-// Helper to read current count
 function getCount() {
   try {
     if (!fs.existsSync(DATA_FILE)) {
@@ -17,7 +16,6 @@ function getCount() {
   }
 }
 
-// Helper to write new count
 function setCount(count: number) {
   try {
     const dir = path.dirname(DATA_FILE);
@@ -42,7 +40,6 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const cookieHeader = request.headers.get('cookie') || '';
-    // Check for cookie: has_viewed_profile=true
     const hasViewed = cookieHeader.includes('has_viewed_profile=true');
 
     let { count: currentCount } = getCount();
@@ -52,10 +49,8 @@ export async function POST(request: Request) {
       setCount(currentCount);
     }
     
-    // Create response
     const response = NextResponse.json({ count: currentCount });
 
-    // Set cookie if not present
     if (!hasViewed) {
         response.cookies.set({
             name: 'has_viewed_profile',
