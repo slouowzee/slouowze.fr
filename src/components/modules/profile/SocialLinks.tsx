@@ -27,9 +27,17 @@ const iconColors: Record<string, string> = {
   Website: "group-hover:text-foreground",
 };
 
-export function SocialLinks() {
+export function SocialLinks({
+  showLabel = true,
+  direction = "flex-col",
+  className,
+}: {
+  showLabel?: boolean;
+  direction?: "flex-col" | "flex-row";
+  className?: string;
+}) {
   return (
-    <div className="flex flex-col gap-2">
+    <div className={`flex ${direction} gap-2 ${className ?? ""}`.trim()}>
       {SOCIALS.map((social) => {
         const Icon = iconMap[social.platform as keyof typeof iconMap] || Link;
         const colorClass = iconColors[social.platform] || "group-hover:text-foreground";
@@ -40,11 +48,15 @@ export function SocialLinks() {
             variant="ghost"
             size="sm"
             asChild
-            className="w-full justify-start gap-2 px-2 text-muted-foreground hover:bg-muted/50 hover:text-foreground group"
+            className={
+              showLabel
+                ? "w-full justify-start gap-2 px-2 text-muted-foreground hover:bg-muted/50 hover:text-foreground group"
+                : "w-auto justify-center p-0 text-muted-foreground hover:text-foreground group"
+            }
           >
             <LinkComponent href={social.url} target="_blank" rel="noopener noreferrer">
-              <Icon className={`h-4 w-4 transition-colors ${colorClass}`} />
-              <span>{social.username}</span>
+              <Icon className={`transition-colors ${colorClass} ${showLabel ? "h-4 w-4" : "h-6 w-6"}`} />
+              {showLabel && <span>{social.username}</span>}
             </LinkComponent>
           </Button>
         );
