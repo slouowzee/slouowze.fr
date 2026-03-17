@@ -54,7 +54,12 @@ export function SocialLinks({
                 : "w-auto justify-center p-0 text-muted-foreground hover:text-foreground group"
             }
           >
-            <LinkComponent href={social.url} target="_blank" rel="noopener noreferrer">
+            <LinkComponent
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={showLabel ? undefined : social.platform}
+            >
               <Icon className={`transition-colors ${colorClass} ${showLabel ? "h-4 w-4" : "h-6 w-6"}`} />
               {showLabel && <span>{social.username}</span>}
             </LinkComponent>
