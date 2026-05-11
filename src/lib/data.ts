@@ -50,7 +50,7 @@ export interface Education {
 }
 
 export const PROFILE: Profile = {
-	name: "slouowze",
+	name: "Pilet Gaël",
 	handle: "@slouowzee",
 	role: "Développeur Web",
 	bio: "Développeur web, passionné par le côté créatif du métier. Mais aussi par le chant. C'est vrai que j'aimerais bien monter un groupe un jour.",
