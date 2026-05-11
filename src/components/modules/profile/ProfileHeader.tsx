@@ -1,13 +1,9 @@
 import { PROFILE } from "@/lib/data";
 import Image from "next/image";
-import { ModeToggle } from "@/components/layout/ModeToggle";
 
 export function ProfileHeader() {
   return (
-    <div className="flex flex-col gap-4 relative">
-      <div className="absolute top-0 right-0 z-10">
-        <ModeToggle />
-      </div>
+    <div className="flex flex-col gap-4">
       <div className="flex flex-row md:flex-col items-center md:items-start gap-4 md:gap-4">
         <div className="relative h-20 w-20 md:h-64 md:w-64 shrink-0 overflow-hidden rounded-full border border-border">
           <Image
