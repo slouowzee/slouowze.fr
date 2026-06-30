@@ -54,7 +54,7 @@ export const PROFILE: Profile = {
 	handle: "@slouowzee",
 	role: "Développeur Web",
 	bio: "Développeur web, passionné par le côté créatif du métier. Mais aussi par le chant. C'est vrai que j'aimerais bien monter un groupe un jour.",
-	about: "Je suis étudiant en deuxième année de BTS SIO avec option SLAM, je m'oriente vers le développement web principalement, mais je touche un peu à tout. Je passe du front au back jusqu'au serveur. Je fais un peu de développement mobile ces derniers temps, mais ce qui me motive reste avant tout le web.\n\nÀ côté du développement j'ai une passion pour la musique, et surtout le chant, je m'oriente plus métal. Je fais aussi du sport et surtout je prends soin de moi. Si je devais vous décrire ma personnalité, je dirais que je suis plutôt direct mais droit, je sais rigoler quand il faut et être sérieux quand c'est nécessaire.",
+	about: "Je suis étudiant en LP MIAW dans laquelle je me spécialise dans la conception web full-stack où je passe du front au back en faisant un détour par les serveurs.\n\nÀ côté du développement j'ai une passion pour la musique, et surtout le chant, je m'oriente plus métal. Je fais aussi du sport et surtout je prends soin de moi. Si je devais vous décrire ma personnalité, je dirais que je suis plutôt direct mais droit, je sais rigoler quand il faut et être sérieux quand c'est nécessaire.",
 	avatar: "/lou.png",
 };
 
@@ -128,6 +128,12 @@ export const EDUCATION: Education[] = [
 		institution: "Lycée Polyvalent Chevrollier, Angers",
 		period: "2024 - 2026",
 		description: "Spécialisation SLAM (Solutions Logicielles et Applications Métiers), apprentissage web, mobile, logiciel, data, cybersécurité.",
+	},
+	{
+		degree: "LP MIAW",
+		institution: "Université de La Rochelle, La Rochelle",
+		period: "2026 - 2027",
+		description: "Formation orientée développement web full‑stack (front, back, web mobile) et technologies du web moderne, avec une forte dimension professionnalisante.",
 	}
 ];
 
